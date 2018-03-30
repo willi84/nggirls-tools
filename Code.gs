@@ -7,7 +7,7 @@ function getRSVP() {
   var sheet = SpreadsheetApp.getActiveSheet();
   var sheetRSVP = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(nameSheetRSVP);
   var sheetParticipants = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(nameParticipants);
-  var labels =   sheetParticipants.getDataRange().getValues()[0];// Range.getCell(0, 0);
+  var labels =   sheetParticipants.getDataRange().getValues()[0];
   var labelsRSVP = sheetRSVP.getDataRange().getValues()[0];
   var indexRSVPStatus = getStatusColumn(sheetRSVP);
   var indexEmail = getEmailColumn(sheetRSVP);
@@ -31,10 +31,7 @@ function getRSVP() {
   var indexActiveEmail = arrayEmails.indexOf(activeEmail);
   var dataSet = dataRSVP[indexActiveEmail]
   var statusEmail = dataSet && dataSet[indexRSVPStatus] ? dataSet[indexRSVPStatus] : "no response";
-  if(statusEmail === "Yes"){
-    SpreadsheetApp.getActiveSpreadsheet().getActiveCell().setBackground("green");
-  } else {}
   
-  return "st";
+  return statusEmail;
  
 }

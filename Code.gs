@@ -9,8 +9,13 @@ function getRSVP() {
   var sheetParticipants = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(nameParticipants);
   var labels =   sheetParticipants.getDataRange().getValues()[0];
   var labelsRSVP = sheetRSVP.getDataRange().getValues()[0];
+  var labelsCurrent = sheet.getDataRange().getValues()[0];
   var indexRSVPStatus = getStatusColumn(sheetRSVP);
   var indexEmail = getEmailColumn(sheetRSVP);
+  
+  Logger.log("rsvp: "+indexRSVPStatus);
+  Logger.log("email: "+indexEmail);
+  
   
   var cellEmail = labels.indexOf(nameEmail)
   
@@ -24,14 +29,29 @@ function getRSVP() {
     arrayEmails.push(email);
   }
   var activeRow = SpreadsheetApp.getActiveSpreadsheet().getActiveCell().getRowIndex()-1;
-  
-  
-  var activeEmail =  dataCurrent[activeRow][getEmailColumn(sheet)];
+  var activeColumn = getEmailColumn(sheet);
+  var activeEmail =  dataCurrent[activeRow][activeColumn];
+  if(activeEmail === ''){
+   return ""; 
+  }
   activeEmail = activeEmail.toString().replace(" ", "").toLowerCase();
-  var indexActiveEmail = arrayEmails.indexOf(activeEmail);
-  var dataSet = dataRSVP[indexActiveEmail]
-  var statusEmail = dataSet && dataSet[indexRSVPStatus] ? dataSet[indexRSVPStatus] : "no response";
   
+  var indexActiveEmail = arrayEmails.indexOf(activeEmail);
+  Logger.log("iea: "+activeEmail);
+  
+  var dataSet = dataRSVP[indexActiveEmail];
+  if(dataSet !== undefined){
+    
+  Logger.log(dataSet.toString());
+  //Logger.log(dataSet[indexRSVPStatus]);
+  //return dataSet.length();
+  
+  
+  Logger.log(indexRSVPStatus);
+  var statusEmail = dataSet && dataSet[indexRSVPStatus] ? dataSet[indexRSVPStatus] : "no response!";
   return statusEmail;
+  } else {
+   return "no response"; 
+  }
  
 }
